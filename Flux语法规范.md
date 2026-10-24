@@ -1497,7 +1497,7 @@ Flux 区分解释器产生的诊断与开发者主动发起的错误处理。
 
 接口不能直接实例化。
 
-抽象类不能直接实例化；抽象类及抽象成员是否需要作为语言扩展，可在后续版本增加。基础实现可以暂不提供 `abstract` 修饰符。
+抽象类不能直接实例化。抽象类与抽象方法属于本版面向对象核心，具体规则见第 12.19 节。
 
 ## 12.3 实例字段
 
@@ -1774,7 +1774,7 @@ public class Counter :
         return Counter.Count
     end
 
-    public int Value = 0 as int
+    public var new Value = 0 as int
 end
 ```
 
@@ -1878,13 +1878,15 @@ end
 
 抽象类用于声明不能直接实例化、但可以作为继承基础的类型。
 
+抽象方法声明采用无方法体的签名形式，不使用方法体分隔符 `:`，也不使用 `end` 结束单个抽象方法。此形式与接口方法声明一致；抽象方法签名由返回类型、方法名和参数列表组成。
+
 ```flux
 public abstract class Shape :
     public abstract double Area
 end
 
 public class Square extends Shape :
-    public double Area :
+    public override double Area :
         return 4.0
     end
 end
@@ -1900,21 +1902,6 @@ end
 - 抽象方法不能同时标记为 `static` 或 `private`。
 - 抽象类可以包含字段、属性、普通方法和构造方法。
 - 抽象类构造方法只能在派生类构造流程中调用，不得直接创建抽象类实例。
-
-本节示例中的 `Area` 为方法而非属性；为避免语法混淆，正式方法定义必须带参数/方法体分隔符。推荐写法如下：
-
-```flux
-public abstract class Shape :
-    public abstract double Area :
-    end
-end
-
-public class Square extends Shape :
-    public override double Area :
-        return 4.0
-    end
-end
-```
 
 ## 12.20 密封类与密封重写
 
